@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 
 public abstract class PlayerType extends EntityType {
@@ -9,15 +8,14 @@ public abstract class PlayerType extends EntityType {
 		super(id, name, health, focus);
 		this.setSkills(skills);
 	}
-
-	@Override
-	public ArrayList<Integer> attack(int targetCount) {
-		// TODO Auto-generated method stub
-		ArrayList<Integer> attackResult = new ArrayList<Integer>();
-		return attackResult;
-		
+	
+	public void replenish() {
+		if (this.focus < 8) {
+			this.focus++;
+			System.out.println(this.name + " replenishes one point of focus!");
+		}
 	}
-
+	
 	public int[] getSkills() {
 		return skills;
 	}
@@ -60,6 +58,26 @@ public abstract class PlayerType extends EntityType {
 	
 	public int getBackstorySkill2() {
 		return this.skills[14];
+	}
+	
+	@Override
+	// For some reason, this isn't working. 
+	//TODO: Make this work. 
+	protected boolean rollParry(int attackSuccesses) {
+		
+		int parrySuccesses = this.dice.countRollSuccesses(this.getDex(), 10 - this.getReflex());
+		
+		// Discover whether the parry was successful.
+		boolean parrySuccess = parrySuccesses > attackSuccesses; // TODO: Playtesting will confirm whether we need to make this an equal nuber of successes or more. TEST!!!
+		
+		// Tell the user what happens. 
+		if (parrySuccess) {
+			System.out.println(this.name + " successfully parried his assailant's attack!");
+		}
+		
+		// Return the result.
+		return parrySuccess;
+		
 	}
 
 	

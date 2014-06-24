@@ -11,6 +11,7 @@ public class GameLoop {
 	
 	public GameLoop(){
 		Game game = new Game();
+		game.testBattle();
 	}
 	
 }

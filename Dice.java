@@ -3,23 +3,23 @@ import java.util.Random;
 public class Dice {
 	
 	private Random numberGen;
-	private int limit;
+	private int faces;
 	
 	public Dice() {
 		
 		this.numberGen = new Random();
-		this.limit = 10;
+		this.faces = 10;
 		
 	}
 	
-	public Dice(int limit) {
+	public Dice(int faces) {
 		this.numberGen = new Random();
-		this.limit = limit;
+		this.faces = faces;
 	}
 	
 	public int roll() {
 		
-		return this.numberGen.nextInt(limit) + 1;
+		return this.numberGen.nextInt(faces) + 1;
 		
 	}
 	

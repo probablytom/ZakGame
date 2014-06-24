@@ -15,71 +15,73 @@ public abstract class EntityType {
 		this.name = name;
 		this.dice = new GameDice();
 	}
-	
-	
+
+	// TODO: HOW DO WE ENGAGE PLAYERS IN BATTLE?!
+
+
 	// Generally useful methods. 
 
-	public abstract ArrayList<Integer> attack(int targetCount); // How do we interact with battles? (May be done! See the attack() class and the Battle() class. )
+	public abstract ArrayList<Integer> attack(int targetCount); 
 
-	// For damage actions?
-	//protected  abstract void kill();
 
-	public boolean defend(int points) {
+	// EXCLUSIVE TO WARRIORS. TODO: MOVE TO WARRIOR() CLASS. 
+	public int defend(int points, int successes) {
 
-		System.out.println(this.name + " is hurt for " + points + " points!");
+		// If we don't parry...
+		if (!this.rollParry(successes)) {
 
-		// Should the user say how much focus ought to be spent?
+			System.out.println(this.name + " is hurt for " + points + " points!");
 
-		// If we still have focus to spend
+			// Should the user say how much focus ought to be spent?
 
-		while (points > 0 && this.focus > 0) {
-			this.focus--;
-			points--;
-			points--;
-		}
+			// If we still have focus to spend
 
-		while (points > 0 && this.health > 0) {
-			this.health--;
-			points--;
-		}
+			while (points > 0 && this.focus > 0) {
+				this.focus--;
+				points--;
+				points--;
+			}
 
-		// If the character is dead, return false. 
-		if (this.health < 1) {
-			return false;
-		} else {
-			return true;
-		}
+			while (points > 0 && this.health > 0) {
+				this.health--;
+				points--;
+			}
 
+		} 
+
+		// 0 if alive, 1 if dead, 2 if parrying. 
+		if ( this.isAlive() ) { return 0; }
+		return 1;
 
 	};
-	
+
 	public boolean isAlive() { return this.health > 0; }
-	
+
+	// At the end of every turn, each entity is entitled to some form of recouperation. 
+	// 		The form of this recouperation is determined later in class definitions. 
+	public abstract void replenish();
+
 	@Override
 	public String toString() {
-		
+
+		// Format: "#{name} has focus :  #{focus} 
+		//			#{name} has health :  #{health}"
 		return this.name + " has focus :  " + Integer.toString(this.focus) + "\n" + this.name + " has health:  " + Integer.toString(this.health) + "\n";
-		
+
 	}
 
 	// Relevant getters and setters.
 	protected int getID(){ return this.id; }
-	
+
 	public String getName() {return this.name;}
-	
+
 	// Replace this with a more appropriate format in attack()? [ALMOST CERTAINLY YES. TODO .] 
 	//     {May now have been done, but is not being used! See attack() methods and the Attack() class. }
 	protected abstract int getDamageDealt();
 
-	
-	
+	// TODO: fix me! Get attack successes from the attack! Modify attack() methods! Modify Battle() class!
+	protected boolean rollParry(int attackSuccesses) { return false; } // This is currently overridden by the PlayerType() class. 
 
+	protected boolean rollParry() {return false;} // NOTE: SOME CLASSES @OVERRIDE THIS. 
 
-	// Better to use basic statements for these rather than function calls?
-
-	/*private int getFocus() {return this.focus;}
-	private void setFocus(int newFocus) {this.focus = newFocus;}
-
-	private int getHealth() {return this.health;}
-	private void setHealth(int newHealth) { this.health = newHealth; }*/
 }

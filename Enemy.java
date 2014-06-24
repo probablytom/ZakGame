@@ -7,7 +7,9 @@ public abstract class Enemy extends EntityType {
 		super(id, name, health, focus);
 	}
 
-	@Override
-	public abstract ArrayList<Integer> attack(int targetCount);
+	public void replenish() {
+		// Do nothing. 
+	}
+	
 	
 }

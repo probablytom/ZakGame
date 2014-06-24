@@ -1,10 +1,18 @@
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author tom
+ * @version 0.0.1
+ * 
+ * @note Things to note: In a x/y roll, x is one of str, dex and will (or int, depending on what we call it!)
+ *
+ */
+
 public class Game {
 
 	private PlayerType player; // Only one protagonist for now.
 	private int characterCount; // So we can assign unique id numbers to game entities.
-	private ArrayList<EntityType> entities; // To keep track of entities who play within the game.
 	private ArrayList<PlayerType> players;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Dice> gameDice;
@@ -24,11 +32,10 @@ public class Game {
 		
 		// Create game entities
 		createPlayer();
-		battle();
 		
 	}
 	
-	public void battle() {
+	public void testBattle() {
 		
 		
 		
@@ -58,18 +65,19 @@ public class Game {
 		
 		
 		Battle battle = new Battle(this.players, this.enemies);	
+		battle.enact();
 		
 	}
 
 	private void createPlayer(){
 		
-		int[] gomezSkills = {2, 4, 1, 2, 0, 0, 0, 3, 1, 2, 1, 1, 3, 0, 0};
-		this.player = new Warrior(characterCount++, "Gomez", 8, 8, gomezSkills);
+		int[] gomezSkills = {2, 4, 1, 2, 0, 3, 0, 3, 1, 2, 1, 1, 3, 0, 0};
+		this.player = new Warrior(characterCount++, "Gomez" + this.characterCount++, 8, 8, gomezSkills);
 		this.players.add(this.player);
 		
 	}
 	
-	public void createWoodsman() {
+	private void createWoodsman() {
 		this.enemies.add( new Woodsman(characterCount++) );
 	}
 

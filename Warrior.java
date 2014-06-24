@@ -12,6 +12,7 @@ public class Warrior extends PlayerType {
 	
 
 	@Override
+	// TODO: Make use of the GameDice findRollSuccesses() method for finding roll successes. 
 	public ArrayList<Integer> attack(int targetCount) {
 		
 		ArrayList<Integer> attackRoll = new ArrayList<Integer>();
@@ -63,6 +64,7 @@ public class Warrior extends PlayerType {
 		}
 		
 		// To store the result
+		// CURRENT FORMAT OF `attackResult`: <success of attack :: Boolean, no of people attacked :: Int, damage dealt :: Int, total successes :: Int>
 		ArrayList attackResult = new ArrayList();
 		
 		
@@ -84,10 +86,71 @@ public class Warrior extends PlayerType {
 		// Add the damage dealt to `attackResult`.
 		attackResult.add(this.getDamageDealt());
 		
+		// Add the number of successes to `attackResult`.
+		attackResult.add(totalSuccesses);
+		
 		
 		// Format of attack: {success of attack, number of people attacked, attackDamage}
 		return attackResult;
 	}
+	
+	@Override
+	// Warriors get their own defend() method so they can counter. 
+	public int defend(int points, int successes) {
+
+		// If we don't parry...
+		if (!this.rollParry(successes)) {
+
+			System.out.println(this.name + " is hurt for " + points + " points!");
+
+			// Should the user say how much focus ought to be spent?
+
+			// If we still have focus to spend
+
+			while (points > 0 && this.focus > 0) {
+				this.focus--;
+				points--;
+				points--;
+			}
+
+			while (points > 0 && this.health > 0) {
+				this.health--;
+				points--;
+			}
+
+		} 
+
+		// The parry succeeded. If we have the spare focus to counter, see if we want to. 
+		else if (this.focus > 0) {
+			System.out.println(this.name + " parried successfully and took no damage!");
+			String parryOption = "";
+			do {
+				System.out.println("Does " + this.name + " wish to spend a point of focus to counter? (Y/N)");
+				parryOption = System.console().readLine().trim().toUpperCase();
+			// If this doesn't yield a "Y" or "N", keep going. 
+			} while (!(parryOption.compareTo("Y") == 0 || parryOption.compareTo("N") == 0) );
+			
+
+			if (parryOption.compareTo("Y") == 0) {
+				
+				// Prettify output!
+				System.out.println();
+				
+				// Spend a point of focus. 
+				this.focus--;
+				
+				return 2;
+			} else {
+				System.out.println("Chose not to counter. :-(");
+			}
+
+		}
+
+		// 0 if alive, 1 if dead, 2 if parrying. 
+		if ( this.isAlive() ) { return 0; }
+		return 1;
+
+	};
 	
 	
 	
