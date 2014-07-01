@@ -32,7 +32,8 @@ public class Attack {
 	}
 
 	// We make sure the external code calls this method, so that it knows which entities are killed.
-	public ArrayList<Integer> enact() {
+	// TODO: Make sure we're using the right rolls when we create a counter. We need to choose Target Number by the counter skill!
+	public ArrayList<Integer> enact() throws InterruptedException {
 
 		// To report back to Class Battle().
 		ArrayList<Integer> killedEntities = new ArrayList<Integer>();
@@ -40,6 +41,10 @@ public class Attack {
 		int defenceResult;
 		// Damage each defender and, if dead, add their ID to killedEntities to report back to Class Battle.
 		for (EntityType defender : this.defenders) {
+			
+			// We take a pause for each attack made. 
+			Thread.sleep(1000);
+			
 			defenceResult = defender.defend(this.damage, this.successes); // 2 is counter. 
 			
 			// If we parry and counter:

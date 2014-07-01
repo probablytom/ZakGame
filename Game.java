@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import Auditor.Auditor;
+
 /**
  * 
  * @author tom
@@ -19,6 +21,8 @@ public class Game {
 	
 	public Game() {
 		
+		Auditor.addLine("Created game.");
+		
 		// Create variables
 		characterCount = 0;
 		this.gameDice = new ArrayList<Dice>();
@@ -33,13 +37,13 @@ public class Game {
 		// Create game entities
 		createPlayer();
 		
+		Auditor.addLine("Created Gomez1.");
+		
 	}
 	
-	public void testBattle() {
+	public void testBattle() throws InterruptedException {
 		
-		
-		
-		//TODO: Parrying. 
+		Auditor.addLine("Testing battle mechanics.");
 		
 		// Find out how many woodsmen Gomez faces.
 		
@@ -63,9 +67,12 @@ public class Game {
 			this.createWoodsman();
 		}
 		
+		Auditor.addLine("Gomez1 is going into battle with " + Integer.toString(woodsmen) + " woodsmen.");
 		
 		Battle battle = new Battle(this.players, this.enemies);	
 		battle.enact();
+		
+		Auditor.addLine("Battle completed!");
 		
 	}
 

@@ -18,11 +18,11 @@ public class Battle {
 	// Carry out a battle. Maybe make this a loop and create a private turn() method? 
 	// Alternatively, how about recursive battles? Enact could be a single turn which 
 	// 		...called itself at the end until it was no longer necessary, taking as many turns as necessary. 
-	public void enact() {
-		
+	public void enact() throws InterruptedException {
+
 		ArrayList<Integer> killedEnemies = new ArrayList<Integer>();
 		ArrayList<Integer> killedPlayers = new ArrayList<Integer>();
-		
+
 
 		do {
 
@@ -53,7 +53,7 @@ public class Battle {
 				// Get attack stats from the enemy attacking.
 				ArrayList attack = enemy.attack(this.players.size());
 
-				// If the attack succeeds, create a new Attack() with the enemy attacking the this.players specified with the number of successes returned. .
+				// If the attack succeeds, create a new Attack() with the enemy attacking the this.players specified with the number of successes returned.
 				if ((Boolean) attack.get(0)) {
 					killedPlayers = new Attack(enemy, this.players.subList( 0, (Integer) attack.get(1) ), (Integer) attack.get(3)).enact();	
 				}
