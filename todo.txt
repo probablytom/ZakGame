@@ -1,3 +1,4 @@
-FIX Auditor.askYesNo()        <- Always returns `false`.
 FIX Name generation           <- Seems there are erratically associated numbers associated to characters. Where are we incrementing `characterCount`?
-TIDY output to the user.      <- We need to know who is attacking, the people defending attacks, and so on. Also, better log data is required. 
+FIX Counter                   <- Counter needs to kill.
+FIX Intercept                 <- Interception needs to switch `Attack()` defenders. 
+FIX Interception Focus        <- Interception is only possible if `this.focus > 0`. 

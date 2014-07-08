@@ -160,7 +160,7 @@ public class Auditor {
 	public static boolean askYesNo(String message) {
 
 		// Present the choice (and log it where chosen.)
-		presentLine(message + "  [Y/N]  :: ");
+		present(message + "  [Y/N]  :: ");
 
 		String choice = "";
 
@@ -186,7 +186,7 @@ public class Auditor {
 		// Log the user's choice. 
 		addLine("(The user chose: \"" + choice + "\".)");
 
-		if (choice == "Y") {
+		if (choice.compareTo("Y") == 0 ) {
 			return true;
 		} else {
 			return false;

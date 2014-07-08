@@ -51,9 +51,6 @@ public class Warrior extends PlayerType {
 			targetInput = Integer.parseInt(targetInputString);
 		} while (targetInput > targetCount || targetInput <= 0);
 		
-
-		// Prettify output!
-		Auditor.presentLine();
 		
 		// Roll the dice!
 		attackRoll = this.dice.rollDice(diceToRoll);
@@ -167,20 +164,11 @@ public class Warrior extends PlayerType {
 			// We choose to intercept. Log this. 
 			Auditor.addLine("User chose to intercept.");
 
-			// ...Then we return that the user intercepts using a point of focus, and see whether it is successful. 
+			// Focus needs decreasing by 1.
+			this.focus--;
 
-			// If the interception is successful:
-			if ( successes <= this.dice.countRollSuccesses(this.getDex(), this.getReflex()) ) { // TODO: Confirm this roll!
-
-				// Return a success and log it!
-				Auditor.addLine("The interception was successful!");
-				return true;
-
-			} else {
-				// We rolled for an interception but failed the roll. Log and return this!
-				Auditor.addLine("The interception roll failed. ");
-				return false;
-			}
+			// Return this. 
+			return true;
 
 		} else {
 			// We choose not to intercept. Log this.

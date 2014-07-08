@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import Auditor.Auditor;
 
 
 public class Woodsman extends Enemy {
@@ -40,8 +41,10 @@ public class Woodsman extends Enemy {
 		// Add the success of the attack to `attackResult`.
 		if (totalSuccesses >= targetInput) {
 			attackResult.add(true);
+			Auditor.presentLine(this.name + " inflicts " + this.getDamageDealt() + " damage!");
 		} else {
 			attackResult.add(false);
+			Auditor.presentLine(this.name + " fails to successfully attack.");
 		}
 
 		// Add the number of people to attack to `attackResult`.

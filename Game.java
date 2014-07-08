@@ -35,8 +35,9 @@ public class Game {
 		}
 		
 		// Create game entities
-		createPlayer();
-		createPlayer();
+		for (int i = 0; i < 2; i++) {
+			createPlayer();
+		}
 		
 	}
 	
@@ -78,8 +79,6 @@ public class Game {
 		String name = "Gomez" + this.characterCount++;
 		this.player = new Warrior(characterCount++, name, 8, 8, gomezSkills);
 		this.players.add(this.player);
-
-		Auditor.addLine("Created " + name + ".");
 		
 	}
 	

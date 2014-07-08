@@ -45,10 +45,6 @@ public class Attack {
 		// Damage each defender and, if dead, add their ID to killedEntities to report back to Battle().
 		for (EntityType defender : this.defenders) {
 
-			// We take a pause for each attack made. 
-			Thread.sleep(1000);
-
-
 
 			// See whether anybody wants to intercept the attack, and if so, don't deal damage. 
 			boolean intercepted = false;
@@ -56,7 +52,7 @@ public class Attack {
 				if ( ( interceptee.canIntercept() ) && ( interceptee.getID() != defender.getID() ) ) {
 					if (interceptee.intercept(this.attacker, defender, successes) ) {
 					// Testing intercept
-						Auditor.quietPrintLine("Testing " + interceptee.name + " intercepting.");	
+						Auditor.presentLine(interceptee.name + " successfully intercepts!");
 						intercepted = true;
 					}
 				}
