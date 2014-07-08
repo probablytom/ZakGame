@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import Auditor.Auditor;
 
 public abstract class EntityType {
 
@@ -14,17 +15,15 @@ public abstract class EntityType {
 		this.focus = focus;
 		this.name = name;
 		this.dice = new GameDice();
+
+		// Log entity creation.
+		Auditor.addLine("Created " + name + ".");
 	}
-
-	// TODO: HOW DO WE ENGAGE PLAYERS IN BATTLE?!
-
 
 	// Generally useful methods. 
 
 	public abstract ArrayList<Integer> attack(int targetCount); 
 
-
-	// EXCLUSIVE TO WARRIORS. TODO: MOVE TO WARRIOR() CLASS. 
 	public int defend(int points, int successes) {
 
 		// If we don't parry...
@@ -49,7 +48,7 @@ public abstract class EntityType {
 
 		} 
 
-		// 0 if alive, 1 if dead, 2 if parrying. 
+		 
 		if ( this.isAlive() ) { return 0; }
 		return 1;
 
@@ -60,6 +59,12 @@ public abstract class EntityType {
 	// At the end of every turn, each entity is entitled to some form of recouperation. 
 	// 		The form of this recouperation is determined later in class definitions. 
 	public abstract void replenish();
+
+	public boolean canIntercept() { return false; } // To see whether a class is capable of interception. Maybe change this to interfaces?
+
+	public boolean intercept(EntityType attacker, EntityType defender, int successes) { // boolean intercepts/doesn't? TODO: Set this up properly!
+		return false; // pass
+	}
 
 	@Override
 	public String toString() {

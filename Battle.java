@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.List;
+
+import Auditor.Auditor;
 
 
 public class Battle {
@@ -34,7 +37,12 @@ public class Battle {
 				// If the attack succeeds, create a new Attack() with the player attacking the this.enemies specified. 
 				if ((Boolean) attack.get(0)) {
 					// Create a list of killed enemies by creating an attack scenario, enacting it, and storing the return ArrayList.
-					killedEnemies = new Attack(player, this.enemies.subList( 0, (Integer) attack.get(1) ), (Integer) attack.get(3)).enact();	
+
+					// Set up useful variables.
+					List<Enemy> attackedEnemies = this.enemies.subList( 0, (Integer) attack.get(1) );
+					
+					// Create the `Attack()`. 
+					killedEnemies = new Attack(player, attackedEnemies, (Integer) attack.get(3), this.enemies).enact();	
 				}
 			}
 
@@ -55,7 +63,13 @@ public class Battle {
 
 				// If the attack succeeds, create a new Attack() with the enemy attacking the this.players specified with the number of successes returned.
 				if ((Boolean) attack.get(0)) {
-					killedPlayers = new Attack(enemy, this.players.subList( 0, (Integer) attack.get(1) ), (Integer) attack.get(3)).enact();	
+					// Set up useful variables.
+					// 
+					List<PlayerType> attackedPlayers = this.players.subList( 0, (Integer) attack.get(1) );
+					// Create the `Attack()`.
+					System.out.println(this.players.size());
+					killedPlayers = new Attack(enemy, attackedPlayers, (Integer) attack.get(3), this.players).enact();	
+					System.out.println(this.players.size());
 				}
 
 			}
@@ -75,24 +89,23 @@ public class Battle {
 			// Turn has ended, so everybody relevant (NOTE: at this point, players) replenishes 1 point of focus. 
 			for (PlayerType player : this.players) {
 				player.replenish();
+
+				// Print the stats for each player. 
+				Auditor.presentLine(player.toString());
+
 			}
 
-
-			// Print the stats for each player.
-			for (PlayerType player : this.players) {
-				System.out.println(player.toString());
-			}
 
 			// We've ended a turn, so, prettify output. 
-			System.out.println();
+			Auditor.presentLine();
 
 			// Do this until all the this.enemies or all the this.players are dead. 
 		} while (this.players.size() != 0 && this.enemies.size() != 0);
 
 		if (this.enemies.size() == 0) {
-			System.out.println("The players won!");
+			Auditor.presentLine("The players won!");
 		} else {
-			System.out.println("The enemies won!");
+			Auditor.presentLine("The enemies won!");
 		}
 
 	}

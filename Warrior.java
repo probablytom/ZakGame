@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import Auditor.Auditor;
+
 
 public class Warrior extends PlayerType {
 	
@@ -33,7 +35,7 @@ public class Warrior extends PlayerType {
 		
 
 		// Prettify output!
-		System.out.println();
+		Auditor.presentLine();
 		
 		
 		// More processing
@@ -42,6 +44,7 @@ public class Warrior extends PlayerType {
 		// Working out how many targets are targeted
 		int targetInput = 0;
 		// Find number of targets to hit
+		//TODO: change this to `Auditor.askYesNo().`
 		do {
 			System.out.printf("How many woodsmen would you like to hit? Please enter a number between: 1 and " + targetCount + "\n");
 			String targetInputString = System.console().readLine();
@@ -50,7 +53,7 @@ public class Warrior extends PlayerType {
 		
 
 		// Prettify output!
-		System.out.println();
+		Auditor.presentLine();
 		
 		// Roll the dice!
 		attackRoll = this.dice.rollDice(diceToRoll);
@@ -71,14 +74,14 @@ public class Warrior extends PlayerType {
 		// Add the success of the attack to `attackResult`.
 		if (totalSuccesses >= targetInput) {
 			attackResult.add(true);
-			System.out.println(this.name + " expertly cleaves his enemies in twain!");
+			Auditor.presentLine(this.name + " expertly cleaves his enemies in twain!");
 		} else {
 			attackResult.add(false);
-			System.out.println(this.name + " fumbles and fails their attack!");
+			Auditor.presentLine(this.name + " fumbles and fails their attack!");
 		}
 		
 		// Prettify output!
-		System.out.println();
+		Auditor.presentLine();
 		
 		// Add the number of people attacked to `attackResult`.
 		attackResult.add(targetInput);
@@ -101,7 +104,7 @@ public class Warrior extends PlayerType {
 		// If we don't parry...
 		if (!this.rollParry(successes)) {
 
-			System.out.println(this.name + " is hurt for " + points + " points!");
+			Auditor.presentLine(this.name + " is hurt for " + points + " points!");
 
 			// Should the user say how much focus ought to be spent?
 
@@ -122,10 +125,10 @@ public class Warrior extends PlayerType {
 
 		// The parry succeeded. If we have the spare focus to counter, see if we want to. 
 		else if (this.focus > 0) {
-			System.out.println(this.name + " parried successfully and took no damage!");
+			Auditor.presentLine(this.name + " parried successfully and took no damage!");
 			String parryOption = "";
 			do {
-				System.out.println("Does " + this.name + " wish to spend a point of focus to counter? (Y/N)");
+				Auditor.presentLine("Does " + this.name + " wish to spend a point of focus to counter? (Y/N)");
 				parryOption = System.console().readLine().trim().toUpperCase();
 			// If this doesn't yield a "Y" or "N", keep going. 
 			} while (!(parryOption.compareTo("Y") == 0 || parryOption.compareTo("N") == 0) );
@@ -134,14 +137,14 @@ public class Warrior extends PlayerType {
 			if (parryOption.compareTo("Y") == 0) {
 				
 				// Prettify output!
-				System.out.println();
+				Auditor.presentLine();
 				
 				// Spend a point of focus. 
 				this.focus--;
 				
 				return 2;
 			} else {
-				System.out.println("Chose not to counter. :-(");
+				Auditor.addLine("Chose not to counter. :-(");
 			}
 
 		}
@@ -151,6 +154,43 @@ public class Warrior extends PlayerType {
 		return 1;
 
 	};
+
+	// Warriors nned their own intercept() override so they can intercept when necessary. They have to actually do something. 
+	@Override
+	public boolean intercept(EntityType attacker, EntityType defender, int successes) {
+		// So we have our types right. 
+		attacker = (Enemy) attacker;
+		defender = (PlayerType) defender;
+
+		// If the user chooses to intercept...
+		if ( Auditor.askYesNo(this.name + " sees " + defender.name + " being attacked by " + attacker.name + "! \nDo you want to intercept, using a point of focus?") ) {
+			// We choose to intercept. Log this. 
+			Auditor.addLine("User chose to intercept.");
+
+			// ...Then we return that the user intercepts using a point of focus, and see whether it is successful. 
+
+			// If the interception is successful:
+			if ( successes <= this.dice.countRollSuccesses(this.getDex(), this.getReflex()) ) { // TODO: Confirm this roll!
+
+				// Return a success and log it!
+				Auditor.addLine("The interception was successful!");
+				return true;
+
+			} else {
+				// We rolled for an interception but failed the roll. Log and return this!
+				Auditor.addLine("The interception roll failed. ");
+				return false;
+			}
+
+		} else {
+			// We choose not to intercept. Log this.
+			Auditor.addLine("User declined to intercept.");
+			return false;
+		}
+		
+
+
+	}
 	
 	
 	
@@ -185,6 +225,11 @@ public class Warrior extends PlayerType {
 
 		// Let's let Gomez deal 6 damage for now. 
 		return 6;
+	}
+
+	@Override
+	public boolean canIntercept() {
+		return true;
 	}
 
 	

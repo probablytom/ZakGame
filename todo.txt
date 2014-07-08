@@ -1,0 +1,3 @@
+FIX Auditor.askYesNo()        <- Always returns `false`.
+FIX Name generation           <- Seems there are erratically associated numbers associated to characters. Where are we incrementing `characterCount`?
+TIDY output to the user.      <- We need to know who is attacking, the people defending attacks, and so on. Also, better log data is required. 

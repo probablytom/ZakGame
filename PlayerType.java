@@ -1,3 +1,5 @@
+import Auditor.Auditor;
+
 
 
 public abstract class PlayerType extends EntityType {
@@ -12,7 +14,7 @@ public abstract class PlayerType extends EntityType {
 	public void replenish() {
 		if (this.focus < 8) {
 			this.focus++;
-			System.out.println(this.name + " replenishes one point of focus!");
+			Auditor.presentLine(this.name + " replenishes one point of focus!");
 		}
 	}
 	
@@ -72,7 +74,7 @@ public abstract class PlayerType extends EntityType {
 		
 		// Tell the user what happens. 
 		if (parrySuccess) {
-			System.out.println(this.name + " successfully parried his assailant's attack!");
+			Auditor.presentLine(this.name + " successfully parried his assailant's attack!");
 		}
 		
 		// Return the result.

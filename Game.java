@@ -36,8 +36,7 @@ public class Game {
 		
 		// Create game entities
 		createPlayer();
-		
-		Auditor.addLine("Created Gomez1.");
+		createPlayer();
 		
 	}
 	
@@ -49,17 +48,14 @@ public class Game {
 		
 		int woodsmen = 0;
 		do {
-			System.out.println("How many Woodsmen?");
+			Auditor.presentLine("How many Woodsmen?");
 			String woodsmenIn = System.console().readLine();
 			try {
 				woodsmen = Integer.parseInt(woodsmenIn);
 			} catch (Exception e) {
-				System.out.println("Enter a valid integer!");
+				Auditor.presentLine("Enter a valid integer!");
 			}
 		} while (woodsmen == 0);
-		
-		// Prettify output!
-		System.out.println();
 		
 		
 		// Create said woodsmen.
@@ -72,15 +68,18 @@ public class Game {
 		Battle battle = new Battle(this.players, this.enemies);	
 		battle.enact();
 		
-		Auditor.addLine("Battle completed!");
+		Auditor.presentLine("Battle completed!");
 		
 	}
 
 	private void createPlayer(){
 		
 		int[] gomezSkills = {2, 4, 1, 2, 0, 3, 0, 3, 1, 2, 1, 1, 3, 0, 0};
-		this.player = new Warrior(characterCount++, "Gomez" + this.characterCount++, 8, 8, gomezSkills);
+		String name = "Gomez" + this.characterCount++;
+		this.player = new Warrior(characterCount++, name, 8, 8, gomezSkills);
 		this.players.add(this.player);
+
+		Auditor.addLine("Created " + name + ".");
 		
 	}
 	
